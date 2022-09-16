@@ -1,0 +1,32 @@
+@include('music-streaming/header')
+
+<h3><b>Hello {{ auth.user.name }}</b></h3>
+<hr>
+
+<h4>Playlists</h4>
+<br>
+@each(playlist in playlists)
+<div class="row">
+  <a href="/playlists/{{ playlist.id }}">
+    <div class="col-md-12">
+      {{playlist.name}}
+    </div>
+  </a>
+</div>
+@end
+<hr>
+
+<h4>Interactions</h4>
+@each(interaction in interactions)
+<div class="row">
+  {{ interaction }}
+</div>
+@end
+<hr>
+
+
+<form method="post" action="/logout">
+  <button type="submit" class="btn btn-primary" style="background-color: blue;">Logout</button>
+</form>
+
+@include('music-streaming/footer')

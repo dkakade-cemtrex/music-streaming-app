@@ -1,0 +1,87 @@
+@include('music-streaming/header')
+
+<div class="row">
+    <div class="col-md-3">
+        @if(song.image)
+        <img src="{{ song.image.url }}">
+        @else
+        <img src="http://localhost:3333/music.jpg">
+        @end
+    </div>
+    <div class="col-md-8">
+        <h3><b>{{song.title}}</b></h3>
+        {{-- <i class="bi-play-circle" data-toggle="tooltip" data-placement="top" title="Play"
+            onclick="aud_play_pause()"></i> --}}
+        <br>
+        <audio controls>
+            <source src="http://localhost:3333/got_intro.mp3" type="audio/ogg">
+            <source src="http://localhost:3333/got_intro.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        {{-- <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Preview"
+            onclick="aud_play_pause()"><i id="stateicon" class="bi-play-circle"></i></a> --}}
+    </div>
+    <div class="col-md-1">
+        <i class="bi bi-plus-square" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-3">
+        {{ artist.name }}
+    </div>
+    <div class="col-md-1">
+        <i class="bi-dot"></i>
+    </div>
+    <div class="col-md-4">
+        {{ album.name }}
+    </div>
+    <div class="col-md-1">
+        <i class="bi-dot"></i>
+    </div>
+    <div class="col-md-3">
+        <span id="song-length">{{ song.length }} min</span>
+    </div>
+</div>
+<hr>
+<div>
+    {{song.lyrics}}
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/playlists">
+                    <input placeholder="Create Playlist" type="text" name="playlistName">
+                    <input type="hidden" value="{{song.id}}" readonly name="songId">
+                    @if(playlists)
+                    <hr>
+                    @each(playlist in playlists)
+                    <div class="form-check">
+                        <input class="form-check-input" name="playlists" type="checkbox" value="{{ playlist.id }}"
+                            id="{{ playlist.id }}">
+                        <label class="form-check-label" for="{{ playlist.id }}">
+                            {{ playlist.name }}
+                        </label>
+                    </div>
+                    @end
+                    @end
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-submit">Save</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@include('music-streaming/footer')

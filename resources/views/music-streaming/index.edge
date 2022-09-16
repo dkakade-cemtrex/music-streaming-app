@@ -1,0 +1,78 @@
+@include('music-streaming/header')
+
+
+
+<div class="row">
+    <h3> <b>Albums </b></h3>
+
+    @each(album in indexData.albums)
+    <div class="col-sm-2" style="border:solid black 1px; ">
+        <a href="http://localhost:3333/albums/{{album.id}}">
+            @if(album.cover)
+            <img src="{{ album.cover.url }}">
+            @else
+            <img src="http://localhost:3333/music.jpg">
+            @end
+            <p> {{ album.name }} </p>
+        </a>
+    </div>
+    @end
+
+    <div class="col-sm" style="text-align: right;">
+        <a href="/albums">
+            <i class="bi-arrow-right-circle" data-toggle="tooltip" data-placement="top" title="View all">
+            </i>
+        </a>
+    </div>
+
+</div>
+<hr>
+<div>
+    <h3><b> Songs </b></h3>
+
+    @each(song in indexData.songs)
+    <div class="row">
+        <div class="col-md-2">
+            @if(song.image)
+            <img src="{{ song.image.url }}">
+            @else
+            <img src="http://localhost:3333/music.jpg">
+            @end
+        </div>
+        <div class="col-md-4">
+            <a href="/songs/{{ song.id }}">
+                <p>{{song.title}}</p>
+            </a>
+        </div>
+        <div class="col-md-2">
+            <span>{{ song.artist.name }}</span>
+        </div>
+        <div class="col-md-1">
+            <audio id="myTune{{ song.id }}">
+                <source src="{{ song.path }}" type="audio/ogg">
+                <source src="{{ song.path }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Preview"
+                onclick="aud_play_pause({{ song.id }})"><i id="stateicon{{ song.id }}" class="bi-play-circle"></i></a>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+    <br>
+    @end
+
+    <div class="col-sm" style="text-align: right;">
+        <a href="/songs">
+            <i class="bi-arrow-right-circle" data-toggle="tooltip" data-placement="top" title="View all">
+            </i>
+        </a>
+    </div>
+
+
+</div>
+
+
+
+
+@include('music-streaming/footer')

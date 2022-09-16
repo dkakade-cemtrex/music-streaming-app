@@ -1,0 +1,56 @@
+@include('music-streaming/header')
+
+<h3><b>Sign In</b></h3>
+<hr>
+<br>
+
+<div class="col-md-4">
+    <form method="post">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="email" id="form2Example1" name="email" class="form-control" />
+            <label class="form-label" for="form2Example1">Email address</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="form2Example2" name="password" class="form-control" />
+            <label class="form-label" for="form2Example2">Password</label>
+        </div>
+
+
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary" style="background-color: blue;">Sign in</button>
+
+
+    </form><br>
+    <span>New here? <a href="http://localhost:3333/register">Create account</a></span>
+</div>
+
+<hr>
+
+
+<div class="row">
+    <div class="col-md-3">
+        {{-- <a href="/login/google"> --}}
+            {{-- <div class="g-signin2"></div> --}}
+            {{-- <i class="bi bi-google"></i> --}}
+            <a class="btn btn-lg btn-google btn-block btn-outline" href="/login/google" style="">
+                <img src="https://img.icons8.com/color/16/000000/google-logo.png" style="height:auto; width:auto;">
+                Signin
+            </a>
+            {{-- </a> --}}
+    </div>
+
+    <div class="col-md-3">
+        <a class="btn btn-primary" style="background-color: #333333;" href="/login/github" role="button">
+            <i class="bi bi-github"></i> Sign In
+        </a>
+    </div>
+</div>
+<br>
+
+
+
+@include('music-streaming/footer')

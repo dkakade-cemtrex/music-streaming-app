@@ -1,0 +1,68 @@
+@include('music-streaming/header')
+
+@if(indexData.songs)
+
+<h3><b>All Songs</b></h3>
+<hr>
+@each(song in indexData.songs)
+<div class="row">
+    <div class="col-md-2">
+        @if(song.image)
+        <img src="{{ song.image.url }}">
+        @else
+        <img src="http://localhost:3333/music.jpg">
+        @end
+    </div>
+    <div class="col-md-5">
+        <a href="/songs/{{ song.id }}">
+            <p> {{ song.title }} </p>
+        </a>
+    </div>
+    <div class="col-md-2">
+        <span>{{ song.artist.name }}</span>
+    </div>
+    <div class="col-md-2">
+        <span id="song-length">{{ song.length }} min</span>
+    </div>
+    <div class="col-md-1">
+        {{-- <i class="bi-play-circle" data-toggle="tooltip" data-placement="top" title="Play"></i> --}}
+        <audio id="myTune{{ song.id }}">
+            <source src="{{ song.path }}" type="audio/ogg">
+            <source src="{{ song.path }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Preview"
+            onclick="aud_play_pause({{ song.id }})"><i id="stateicon{{ song.id }}" class="bi-play-circle"></i></a>
+    </div>
+
+</div>
+<hr>
+@end
+
+
+
+@elseif(indexData.albums)
+
+<h3><b>All albums</b></h3>
+<hr>
+<div class="row" id="album-div">
+    @each(album in indexData.albums)
+    <div class="col-md-4" style="border:solid black 1px; ">
+        <a href="/albums/{{ album.id }}">
+            <div class="col-sm">
+
+                @if(album.cover)
+                <img src="{{ album.cover.url }}">
+                @else
+                <img src="http://localhost:3333/music.jpg">
+                @end
+                <p> {{ album.name }} </p>
+            </div>
+        </a>
+    </div>
+    @end
+</div>
+
+@end
+
+@include('music-streaming/footer')
