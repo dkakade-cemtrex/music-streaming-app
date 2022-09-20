@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Interaction from 'App/Models/Interaction'
 import Playlist from 'App/Models/Playlist'
 import Song from 'App/Models/Song'
 
@@ -36,26 +37,52 @@ export default class PlaylistsController {
   }
 
   public async show({ view, request }: HttpContextContract) {
-    const playlist = await Playlist.query().where('id', request.param('id')).preload('song',(p)=>{
-      p.preload('artist')
-    })
-    console.log('playlists===>', playlist)
-    // let playlistSongs: any[] = []
-
-    // for (const p of playlist) {
-    //   const pivot = await p.related('song').query().wherePivot('playlistId', p.id).preload('artist')
-    //   playlistSongs.push(pivot)
-    //   console.log('pivot===>', pivot)
-    // }
+    const playlist = await Playlist.query()
+      .where('id', request.param('id'))
+      .preload('song', (p) => {
+        p.preload('artist')
+      })
     return view.render('music-streaming/playlists', {
       playlist: playlist,
-      // playlistSongs: playlistSongs,
     })
   }
 
-  public async edit({}: HttpContextContract) {}
+  public async removeSong({ request, response }: HttpContextContract) {
+    const playlistId = request.param('playlistId')
+    const songId = request.param('songId')
+    const playlist = await Playlist.find(playlistId)
+    const song = await Song.find(songId)
+    if (playlist && song) {
+      await song.related('playlist').detach([playlist.id])
+    }
+    response.redirect(`/playlists/${playlistId}`)
+  }
 
   public async update({}: HttpContextContract) {}
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ response, request }: HttpContextContract) {
+    const playlist = await Playlist.findByOrFail('id', request.param('id'))
+    await playlist.delete()
+    response.redirect('/profile')
+  }
+
+  public async like({ response, request, auth }: HttpContextContract) {
+    const songId = request.param('id')
+    let interaction = await Interaction.query()
+      .where('userId', auth.user?.id)
+      .andWhere('songId', songId)
+      .first()
+    if (interaction) {
+      await interaction.delete()
+    } else {
+      interaction = await Interaction.create({
+        userId: auth.user?.id,
+        songId: songId,
+        playCount:1,
+        liked: true,
+      })
+      await interaction.save()
+    }
+    response.redirect(`/songs/${songId}`)
+  }
 }

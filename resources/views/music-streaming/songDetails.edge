@@ -13,11 +13,22 @@
         {{-- <i class="bi-play-circle" data-toggle="tooltip" data-placement="top" title="Play"
             onclick="aud_play_pause()"></i> --}}
         <br>
-        <audio controls>
-            <source src="http://localhost:3333/got_intro.mp3" type="audio/ogg">
-            <source src="http://localhost:3333/got_intro.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+        <div class="row">
+            <div class="col-md-6">
+                <audio controls>
+                    <source src="{{song.path}}" type="audio/ogg">
+                    <source src="{{song.path}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+
+            <div class="col-md-2">
+                <a href="/like/{{song.id}}">
+                    <i class="bi bi-heart-fill" data-toggle="tooltip" title="Like"></i>
+                </a>
+            </div>
+        </div>
         {{-- <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Preview"
             onclick="aud_play_pause()"><i id="stateicon" class="bi-play-circle"></i></a> --}}
     </div>
@@ -55,7 +66,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Playlist</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -82,6 +93,5 @@
         </div>
     </div>
 </div>
-
 
 @include('music-streaming/footer')

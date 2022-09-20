@@ -22,7 +22,7 @@
     <div class="col-md-2">
         <span>{{ song.artist.name }}</span>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
         <span id="song-length">{{ song.length }} min</span>
     </div>
     <div class="col-md-1">
@@ -34,6 +34,11 @@
         </audio>
         <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Preview"
             onclick="aud_play_pause({{ song.id }})"><i id="stateicon{{ song.id }}" class="bi-play-circle"></i></a>
+    </div>
+    <div class="col-md-1">
+        <a href="/remove-song/{{ song.id }}/{{ playlist[0].id }}" onclick="return confirm('Are you sure?')">
+            <i class="bi bi-dash-square" data-toggle="tooltip" title="Remove from playlist"></i>
+        </a>
     </div>
 
 </div>

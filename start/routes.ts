@@ -24,22 +24,18 @@ Route.get('/', async ({ view }) => {
   return view.render('welcome')
 })
 
-Route.get('/send-mail', async ({ view }) => {
-  return view.render('email/sendMailForm')
+Route.group(() => {
+  Route.get('/send-mail', 'SendMailsController.getSendMail')
+  Route.post('/send-mail', 'SendMailsController.sendMail')
 })
 
-Route.post('/send-mail', 'SendMailsController.index')
-
 Route.group(() => {
-  Route.get('/send-mail', async ({ view }) => {
-    return view.render('email/sendMailWithTemplateForm')
-  })
-
+  Route.get('/send-mail', 'SendMailsController.tGetSendMail')
   Route.post('/send-mail', 'SendMailsController.templateMail')
 }).prefix('/template')
 
 Route.group(() => {
-  Route.post('/users', 'UsersController.store') //register/ create user
+  Route.post('/users', 'UsersController.store')
   Route.resource('auth', 'AuthController')
     .middleware({
       destroy: ['auth'],
@@ -48,17 +44,17 @@ Route.group(() => {
     .as('auth')
   Route.get('/register', 'SocialAuthsController.register')
   Route.post('/register', 'SocialAuthsController.store')
+
   Route.get('/login', 'SocialAuthsController.login')
   Route.post('/login', 'SocialAuthsController.create')
+
   Route.get('/login/github', 'SocialAuthsController.redirect')
   Route.get('/login/github/callback', 'SocialAuthsController.callback')
+
   Route.get('/login/google', 'SocialAuthsController.gRedirect')
   Route.get('/login/google/callback', 'SocialAuthsController.gCallback')
 
-  Route.post('/logout', async ({ auth, response }) => {
-    await auth.use('web').logout()
-    response.redirect('/index')
-  })
+  Route.post('/logout', 'SocialAuthsController.destroy')
 })
 
 Route.group(() => {
@@ -69,6 +65,8 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/profile', 'MusicStreamingsController.profile')
-  Route.get('/my-playlists', 'MusicStreamingsController.myPlaylist')
-  Route.resource('/playlists', 'PlaylistsController')
+  Route.resource('/playlists', 'PlaylistsController').only(['store', 'show'])
+  Route.get('playlists/delete/:id', 'PlaylistsController.destroy')
+  Route.get('remove-song/:songId/:playlistId', 'PlaylistsController.removeSong')
+  Route.get('like/:id', 'PlaylistsController.like')
 }).middleware('auth')

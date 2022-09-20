@@ -13,7 +13,7 @@ export default class extends BaseSchema {
         .onDelete('CASCADE')
       table.integer('songId').notNullable().unsigned().references('songs.id').onDelete('CASCADE')
       table.timestamp('createdAt', { useTz: true })
-      table.timestamp('updatedat', { useTz: true })
+      table.timestamp('updatedAt', { useTz: true })
     })
   }
 

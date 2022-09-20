@@ -7,16 +7,21 @@
 <br>
 @each(playlist in playlists)
 <div class="row">
-  <a href="/playlists/{{ playlist.id }}">
-    <div class="col-md-12">
+  <div class="col-md-10">
+    <a href="/playlists/{{ playlist.id }}">
       {{playlist.name}}
-    </div>
-  </a>
+    </a>
+  </div>
+  <div class="col-md-2">
+    <a href="/playlists/delete/{{ playlist.id }}" onclick="return confirm('Are you sure?')">
+      <i class="bi bi-trash" data-toggle="tooltip" data-placement="top" title="Delete playlist"></i>
+    </a>
+  </div>
 </div>
 @end
 <hr>
 
-<h4>Interactions</h4>
+<h4>Liked Songs</h4>
 @each(interaction in interactions)
 <div class="row">
   {{ interaction }}

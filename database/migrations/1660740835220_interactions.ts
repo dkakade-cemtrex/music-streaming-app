@@ -10,8 +10,8 @@ export default class extends BaseSchema {
       table.integer('songId').unsigned().references('songs.id').onDelete('CASCADE')
       table.boolean('liked').notNullable()
       table.integer('playCount').notNullable()
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('createdAt', { useTz: true })
+      table.timestamp('updatedAt', { useTz: true })
     })
   }
 

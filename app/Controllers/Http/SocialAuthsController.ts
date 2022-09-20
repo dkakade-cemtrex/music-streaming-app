@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import Mail from '@ioc:Adonis/Addons/Mail'
 
 export default class SocialAuthsController {
   public async login({ view }: HttpContextContract) {
@@ -33,8 +34,15 @@ export default class SocialAuthsController {
       password: password,
     })
     user.save()
-    
+
     await auth.use('web').login(user)
+    await Mail.use('sendMailer').send((message) => {
+      message
+        .from('info@example.com')
+        .to(email)
+        .subject('Welcome to Music Streaming App')
+        .htmlView('email/welcome', { name: name })
+    })
     response.redirect('/index')
   }
 
@@ -141,5 +149,10 @@ export default class SocialAuthsController {
      */
     await auth.use('web').login(user)
     return response.redirect('/index')
+  }
+
+  public async destroy({ auth, response }: HttpContextContract) {
+    await auth.use('web').logout()
+    response.redirect('/index')
   }
 }
