@@ -47,10 +47,8 @@ Route.group(() => {
 
   Route.get('/login', 'SocialAuthsController.login')
   Route.post('/login', 'SocialAuthsController.create')
-
   Route.get('/login/github', 'SocialAuthsController.redirect')
   Route.get('/login/github/callback', 'SocialAuthsController.callback')
-
   Route.get('/login/google', 'SocialAuthsController.gRedirect')
   Route.get('/login/google/callback', 'SocialAuthsController.gCallback')
 

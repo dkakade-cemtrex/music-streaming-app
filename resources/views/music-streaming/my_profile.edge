@@ -1,6 +1,16 @@
 @include('music-streaming/header')
 
-<h3><b>Hello {{ auth.user.name }}</b></h3>
+<div class="row">
+  <div class="col-md-9">
+    <h3><b>Hello {{ auth.user.name }}</b></h3>
+  </div>
+  <div class="col-md-3">
+    <form method="post" action="/logout">
+      <button type="submit" class="btn btn-primary" style="background-color: blue; float:right;">Logout</button>
+      <br>
+    </form>
+  </div>
+</div>
 <hr>
 
 <h4>Playlists</h4>
@@ -24,14 +34,44 @@
 <h4>Liked Songs</h4>
 @each(interaction in interactions)
 <div class="row">
-  {{ interaction }}
+  <div class="col-md-2">
+    @if(interaction.song.image)
+    <img src="{{ interaction.song.image.url }}">
+    @else
+    <img src="http://localhost:3333/music.jpg">
+    @end
+  </div>
+  <div class="col-md-5">
+    <a href="/songs/{{ interaction.song.id }}">
+      <p> {{ interaction.song.title }} </p>
+    </a>
+  </div>
+  <div class="col-md-2">
+    <span>{{ interaction.song.artist.name }}</span>
+  </div>
+  <div class="col-md-1">
+    <span id="song-length">{{ interaction.song.length }} min</span>
+  </div>
+  <div class="col-md-1">
+    {{-- <i class="bi-play-circle" data-toggle="tooltip" data-placement="top" title="Play"></i> --}}
+    <audio id="myTune{{ interaction.song.id }}">
+      <source src="{{ interaction.song.path }}" type="audio/ogg">
+      <source src="{{ interaction.song.path }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <a href="javascript:void(0)" class="btn btn-default" data-toggle="tooltip" title="Preview"
+      onclick="aud_play_pause({{ interaction.song.id }})"><i id="stateicon{{ interaction.song.id }}"
+        class="bi-play-circle"></i></a>
+  </div>
+  <div class="col-md-1">
+    <a href="/like/{{interaction.song.id}}">
+      <i class="bi bi-heart-fill" data-toggle="tooltip" title="Remove"></i>
+    </a>
+  </div>
+
 </div>
-@end
 <hr>
+@end
 
-
-<form method="post" action="/logout">
-  <button type="submit" class="btn btn-primary" style="background-color: blue;">Logout</button>
-</form>
 
 @include('music-streaming/footer')

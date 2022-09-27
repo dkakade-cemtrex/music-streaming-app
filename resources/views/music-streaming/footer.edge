@@ -1,31 +1,40 @@
 </div>
 </div>
+<div class="loader" style="display:none;"></div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous">
     </script>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
 <script>
+    $(document).ready(function () {
+        $('#sign_up').on('submit', function () {
+            $('.loader').show();
+            $('#main').hide();
+        });
+    });
     function aud_play_pause(songId) {
         // if (songId) {
-            var myAudio = document.getElementById(`myTune${songId}`);
-            if (myAudio.paused) {
-                $("i .bi-play-circle").removeClass('bi-pause-circle')
-                $("i .bi-pause-circle").addClass('bi-play-circle');
-                $(`#stateicon${songId}`).removeClass('bi-play-circle');
-                $(`#stateicon${songId}`).addClass('bi-pause-circle');
-                $("audio").each(function () {
-                    if (this.id !== `myTune${songId}`) {
-                        this.pause()
-                        this.currentTime = 0;
-                    }
-                });
-                myAudio.play();
-            } else {
-                $(`#stateicon${songId}`).removeClass('bi-pause-circle');
-                $(`#stateicon${songId}`).addClass('bi-play-circle');
-                myAudio.pause();
-            }
+        var myAudio = document.getElementById(`myTune${songId}`);
+        if (myAudio.paused) {
+            $("i .bi-play-circle").removeClass('bi-pause-circle')
+            $("i .bi-pause-circle").addClass('bi-play-circle');
+            $(`#stateicon${songId}`).removeClass('bi-play-circle');
+            $(`#stateicon${songId}`).addClass('bi-pause-circle');
+            $("audio").each(function () {
+                if (this.id !== `myTune${songId}`) {
+                    this.pause()
+                    this.currentTime = 0;
+                }
+            });
+            myAudio.play();
+        } else {
+            $(`#stateicon${songId}`).removeClass('bi-pause-circle');
+            $(`#stateicon${songId}`).addClass('bi-play-circle');
+            myAudio.pause();
+        }
         // } else {
         //     var myAudio = document.getElementById("myTune");
         //     if (myAudio.paused) {

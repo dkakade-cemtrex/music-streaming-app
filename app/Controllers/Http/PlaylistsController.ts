@@ -67,6 +67,7 @@ export default class PlaylistsController {
   }
 
   public async like({ response, request, auth }: HttpContextContract) {
+    const backURL = request.header('Referer') || '/'
     const songId = request.param('id')
     let interaction = await Interaction.query()
       .where('userId', auth.user?.id)
@@ -78,11 +79,11 @@ export default class PlaylistsController {
       interaction = await Interaction.create({
         userId: auth.user?.id,
         songId: songId,
-        playCount:1,
+        playCount: 1,
         liked: true,
       })
       await interaction.save()
     }
-    response.redirect(`/songs/${songId}`)
+    response.redirect(backURL)
   }
 }

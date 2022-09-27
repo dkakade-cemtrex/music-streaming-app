@@ -18,7 +18,9 @@ export default class MusicStreamingsController {
 
   public async profile({ view, auth }: HttpContextContract) {
     const playlists = await Playlist.query().where('userId', auth.user?.id)
-    const interactions = await Interaction.query().where('userId', auth.user?.id).preload('song')
+    const interactions = await Interaction.query().where('userId', auth.user?.id).preload('song',(s)=>{
+      s.preload('artist')
+    })
     return view.render('music-streaming/my_profile', {
       playlists: playlists,
       interactions: interactions,
