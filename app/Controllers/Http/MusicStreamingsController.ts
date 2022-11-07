@@ -18,9 +18,11 @@ export default class MusicStreamingsController {
 
   public async profile({ view, auth }: HttpContextContract) {
     const playlists = await Playlist.query().where('userId', auth.user?.id)
-    const interactions = await Interaction.query().where('userId', auth.user?.id).preload('song',(s)=>{
-      s.preload('artist')
-    })
+    const interactions = await Interaction.query()
+      .where('userId', auth.user?.id)
+      .preload('song', (s) => {
+        s.preload('artist')
+      })
     return view.render('music-streaming/my_profile', {
       playlists: playlists,
       interactions: interactions,
@@ -44,6 +46,3 @@ export default class MusicStreamingsController {
 
   public async destroy({}: HttpContextContract) {}
 }
-
-//google client id : 25057032785-5va95jsjbftignctht32jkmoiltqpe88.apps.googleusercontent.com
-// client secret: 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

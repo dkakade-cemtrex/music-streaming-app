@@ -31,7 +31,7 @@ export default class Playlist extends BaseModel {
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
-
+ 
   @manyToMany(() => Song, {
     pivotTable: 'playlistSongs',
   })
